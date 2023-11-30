@@ -31,10 +31,11 @@ int main(){
         return  1;
     }
 
-    char buffer[256];
-    int n;
-    memset(buffer, 0, 256);
+
     while (true){
+        char buffer[256];
+        int n;
+        memset(buffer, 0, 256);
         n = read(client_socket, buffer,255);
         if (n < 0) {
             std::cerr << "Error reading from socket" << std::endl;

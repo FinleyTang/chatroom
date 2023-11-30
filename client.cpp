@@ -33,9 +33,13 @@ int main(){
 
     // Send data to the server
     while (true){
-        std::string message = "Hello, server!";
+//        std::string message = "Hello, server!";
+        std::string message;
+//        std::cin >> message;
+        std::getline(std::cin, message);
         memset(buffer, 0, 256);
         strncpy(buffer, message.c_str(), sizeof(buffer));
+
         n = write(client_socket, buffer, strlen(buffer));
         if (n < 0) {
             std::cerr << "Error writing to socket" << std::endl;

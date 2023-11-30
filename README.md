@@ -86,3 +86,35 @@ if (bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
 
 
 https://beej.us/guide/bgnet/html/#platform-and-compiler
+
+
+## 读入数据处理
+
+刚开始client写入数据逻辑如下：
+用户输入写入的内容
+```c++
+    while (true){
+//        std::string message = "Hello, server!";
+        std::string message;
+//        std::cin >> message;
+        memset(buffer, 0, 256);
+        strncpy(buffer, message.c_str(), sizeof(buffer));
+
+        n = write(client_socket, buffer, strlen(buffer));
+
+```
+
+发现发送的数据总是被截断，比如输入Hello world，只能读到Hello后来改为如下：
+```c++
+    while (true){
+//        std::string message = "Hello, server!";
+std::string message;
+//        std::cin >> message;
+std::getline(std::cin, message);
+memset(buffer, 0, 256);
+strncpy(buffer, message.c_str(), sizeof(buffer));
+
+n = write(client_socket, buffer, strlen(buffer));
+
+```
+这是因为 std::cin 在接收输入时遇到空格就会停止读取，因此只有 "Hello" 被存储到了 message 中。如果你想要读取整个包含空格的行作为输入，你可以使用 std::getline 函数来代替 std::cin
