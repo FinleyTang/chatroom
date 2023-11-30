@@ -43,6 +43,10 @@ int main(){
         }
         std::cout << "Received: " << buffer << std::endl;
 
+        std::string message;
+        std::getline(std::cin, message);
+        strncpy(buffer, message.c_str(), message.size());
+
 // Send data back to the client
         n = write(client_socket, buffer, strlen(buffer));
         if (n < 0) {
