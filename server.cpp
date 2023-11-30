@@ -33,19 +33,21 @@ int main(){
 
     char buffer[256];
     int n;
-    bzero(buffer,256);
-    n = read(client_socket, buffer,255);
-    if (n < 0) {
-        std::cerr << "Error reading from socket" << std::endl;
-        return 1;
-    }
-    std::cout << "Received: " << buffer << std::endl;
+    memset(buffer, 0, 256);
+    while (true){
+        n = read(client_socket, buffer,255);
+        if (n < 0) {
+            std::cerr << "Error reading from socket" << std::endl;
+            return 1;
+        }
+        std::cout << "Received: " << buffer << std::endl;
 
 // Send data back to the client
-    n = write(client_socket, buffer, strlen(buffer));
-    if (n < 0) {
-        std::cerr << "Error writing to socket" << std::endl;
-        return 1;
+        n = write(client_socket, buffer, strlen(buffer));
+        if (n < 0) {
+            std::cerr << "Error writing to socket" << std::endl;
+            return 1;
+        }
     }
 
     close(client_socket);
